@@ -1,0 +1,27 @@
+.LocalWeather {
+
+  .address-form {
+    width: 300px;
+
+    input {
+      width: 80%;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 20%;
+      box-sizing: border-box;
+    }
+
+    .result {
+      border-bottom: 1px solid #666;
+      padding: 4px;
+      font-size: 10px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: lightgray;
+      }
+    }
+  }
+}
