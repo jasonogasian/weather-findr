@@ -5,6 +5,7 @@ const compression = require('compression');
 const bodyParser = require('body-parser');
 const path = require('path');
 const config = require('./config');
+const apiRouter = require('./routers/apiRouter');
 
 
 //
@@ -50,14 +51,28 @@ app.use(expressWinston.logger({
   expressFormat: true,
   colorize: false,
 }));
+
+
+//
+// APIs
+//
+app.use('/api', apiRouter(logger));
  
 
 //
 // Serve the React App
 //
 app.use(express.static(path.join(__dirname, 'app/build')));
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'app/build', 'index.html'));
+});
+
+
+//
+// 404 Not Found
+//
+app.use((req, res, next) => {
+  res.status(404).send("<h1>Oops, where'd you get that link??</h1>");
 });
 
 

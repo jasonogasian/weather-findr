@@ -1,26 +1,51 @@
 .LocalWeather {
+  padding: 50px 16px;
+
+  .address-form, .forecast {
+    max-width: 600px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+    position: relative;
+  }
 
   .address-form {
-    width: 300px;
+    max-width: 400px;
+
+    input, button {
+      box-sizing: border-box;
+      vertical-align: top;
+      padding: 6px 0;
+    }
 
     input {
       width: 80%;
       box-sizing: border-box;
+      padding: 6px;
     }
 
     button {
       width: 20%;
       box-sizing: border-box;
+      cursor: pointer;
     }
 
-    .result {
-      border-bottom: 1px solid #666;
-      padding: 4px;
-      font-size: 10px;
-      cursor: pointer;
+    .results {
+      position: absolute;
+      width: 100%;
+      box-sizing: border-box;
+      background: rgba(255, 255, 255, 0.9);
+      border-left: 1px solid #666;
+      border-right: 1px solid #666;
 
-      &:hover {
-        background-color: lightgray;
+      .result {
+        border-bottom: 1px solid #666;
+        padding: 6px 4px;
+        font-size: 12px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: lightgray;
+        }
       }
     }
   }

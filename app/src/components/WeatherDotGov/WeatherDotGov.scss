@@ -1,0 +1,16 @@
+.WeatherDotGov {
+  
+  .detailed {
+    display: table;
+
+    .weather-icon, .detailed-forecast {
+      display: table-cell;
+      vertical-align: top;
+    }
+
+    .detailed-forecast {
+      padding-left: 10px;
+      text-align: left;
+    }
+  }
+}
