@@ -1,3 +1,5 @@
+$formElementHeight: 30px;
+
 .App {
   text-align: center;
 
@@ -6,5 +8,24 @@
     color: #fff;
     font-size: 32px;
     padding: 20px 0;
+  }
+
+  button {
+    background-color: cornflowerblue;
+    color: #333;
+    border: none;
+    height: $formElementHeight;
+    box-sizing: border-box;
+    padding: 6px 0;
+
+    &:hover {
+      background-color: #6b9bef;
+    }
+  }
+
+  input {
+    box-sizing: border-box;
+    height: $formElementHeight;
+    padding: 6px;
   }
 }

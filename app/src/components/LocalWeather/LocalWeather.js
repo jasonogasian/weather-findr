@@ -15,7 +15,7 @@ library.add(faLocationArrow);
 
 function LocalWeather(props) {
   const [ search, setSearch ] = useState('');
-  const [ locationChosen, setLcoationChosen ] = useState(false);
+  const [ title, setTitle ] = useState('Your Location');
   const [ latitude, setLatitude ] = useState(null);
   const [ longitude, setLongitude ] = useState(null);
   const [ addressResults, setAddressResults ] = useState([]);
@@ -28,15 +28,10 @@ function LocalWeather(props) {
 
   useEffect(() => {
     if (search.length >= 3) {
-      if (locationChosen) {
-        setLcoationChosen(false);
-      }
-      else {
-        predict(search)
-        .then(results => {
-          setAddressResults(results.results);  
-        });
-      }
+      predict(search)
+      .then(results => {
+        setAddressResults(results.results);  
+      });
     }
     else if (!search) {
       setAddressResults([]);
@@ -65,9 +60,9 @@ function LocalWeather(props) {
       const [lng, lat] = result.place.geometry.coordinates;
       setLatitude(lat);
       setLongitude(lng);
-      setSearch(result.displayString);
+      setSearch('');
       setAddressResults([]);
-      setLcoationChosen(true);
+      setTitle(result.displayString);
     }
   }
 
@@ -84,6 +79,7 @@ function LocalWeather(props) {
     <div className="LocalWeather">
 
       <div className="address-form">
+        <h4>{ title }</h4>
         <input 
           name="address"
           placeholder="Search an address"
@@ -108,7 +104,7 @@ function LocalWeather(props) {
       </div>
 
       { lat && lng &&
-        <div className="forecast">
+        <div className="forecast-area">
           <WeatherDotGov lat={lat} lng={lng} />
         </div>
       }

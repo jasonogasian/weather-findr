@@ -1,10 +1,10 @@
 .LocalWeather {
-  padding: 50px 16px;
+  padding: 20px 16px;
 
-  .address-form, .forecast {
+  .address-form, .forecast-area {
     max-width: 600px;
     margin: 0 auto;
-    padding-bottom: 50px;
+    padding-bottom: 20px;
     position: relative;
   }
 
@@ -12,25 +12,21 @@
     max-width: 400px;
 
     input, button {
-      box-sizing: border-box;
       vertical-align: top;
-      padding: 6px 0;
     }
 
     input {
       width: 80%;
-      box-sizing: border-box;
-      padding: 6px;
     }
 
     button {
       width: 20%;
-      box-sizing: border-box;
       cursor: pointer;
     }
 
     .results {
       position: absolute;
+      z-index: 1;
       width: 100%;
       box-sizing: border-box;
       background: rgba(255, 255, 255, 0.9);

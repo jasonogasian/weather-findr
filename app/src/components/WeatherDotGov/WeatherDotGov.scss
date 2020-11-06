@@ -1,16 +1,28 @@
 .WeatherDotGov {
-  
-  .detailed {
-    display: table;
 
-    .weather-icon, .detailed-forecast {
-      display: table-cell;
-      vertical-align: top;
+  .forecast {
+    padding: 20px;
+
+    @media screen and (max-width:500px) {
+      padding: 20px 0;
+    }
+    
+    &:not(:last-of-type) {
+      border-bottom: 1px solid #aaa;
     }
 
-    .detailed-forecast {
-      padding-left: 10px;
-      text-align: left;
+    .detailed {
+      display: table;
+
+      .weather-icon, .detailed-forecast {
+        display: table-cell;
+        vertical-align: top;
+      }
+
+      .detailed-forecast {
+        padding-left: 10px;
+        text-align: left;
+      }
     }
   }
 }

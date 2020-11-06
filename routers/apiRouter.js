@@ -15,6 +15,7 @@ const apiRouter = (logger) => {
   //
   api.get(
     '/v1/forecast',
+    // TODO -> extract this into it's own interface so it can easily be swapped with another server if needed
     (req, res, next) => {
       if (req.query.lat && req.query.lng) {
         

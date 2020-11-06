@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "components/Spinner/Spinner";
 
@@ -35,18 +34,23 @@ function WeatherDotGov(props) {
   }
 
  
-  const period = forecast && forecast.periods ? forecast.periods[0] : {};
+  const periods = forecast && forecast.periods ? forecast.periods.slice(0, 3) : {};
   return (
     <div className="WeatherDotGov">
-      <h4>{period.name}'s Forecast</h4>
-      <div className="detailed">
-        <div className="weather-icon">
-          <img className="weather-icon" src={ period.icon } />
+
+      { periods.map(period => (
+        <div key={period.number} className="forecast">
+          <h4>{period.name}'s Forecast</h4>
+          <div className="detailed">
+            <div className="weather-icon">
+              <img alt={ period.shortForecast } className="weather-icon" src={ period.icon } />
+            </div>
+            <div className="detailed-forecast">
+              { period.detailedForecast }
+            </div>
+          </div>
         </div>
-        <div className="detailed-forecast">
-          { period.detailedForecast }
-        </div>
-      </div>
+      ))}
     </div>
   )
 }
