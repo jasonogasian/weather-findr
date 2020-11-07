@@ -3,9 +3,10 @@ import { geolocated } from "react-geolocated";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
+import WeatherDotGov from "components/WeatherDotGov/WeatherDotGov";
+import Spinner from "components/Spinner/Spinner";
 
 import './LocalWeather.scss';
-import WeatherDotGov from "components/WeatherDotGov/WeatherDotGov";
 
 const KEY = 'WQ0S7HvMWzBP1j91kqF81Ypf80AGX7Dx';
 
@@ -110,6 +111,10 @@ function LocalWeather(props) {
         <div className="forecast-area">
           <WeatherDotGov lat={lat} lng={lng} />
         </div>
+      }
+
+      { props.isGeolocationEnabled && !lat && !lng && 
+        <Spinner />
       }
     </div>
   )
