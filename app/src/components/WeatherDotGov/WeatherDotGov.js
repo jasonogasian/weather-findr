@@ -39,8 +39,8 @@ function WeatherDotGov(props) {
     <div className="WeatherDotGov">
 
       { periods.map(period => (
-        <div key={period.number} className="forecast">
-          <h4>{period.name}'s Forecast</h4>
+        <div key={ period.number } className="forecast">
+          <h4>{ period.name }'s Forecast</h4>
           <div className="detailed">
             <div className="weather-icon">
               <img alt={ period.shortForecast } className="weather-icon" src={ period.icon } />

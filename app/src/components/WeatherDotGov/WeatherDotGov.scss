@@ -3,6 +3,7 @@
   .forecast {
     padding: 20px;
     padding-bottom: 30px;
+    animation: fadeIn 700ms ease-in-out;
 
     @media screen and (max-width:500px) {
       padding: 20px 0;
