@@ -7,10 +7,18 @@
     text-overflow: ellipsis;
   }
 
+  .note {
+    text-align: left;
+    padding-top: 4px;
+    padding-left: 6px;
+    font-size: 11px;
+    font-style: italic;
+    color: #555;
+  }
+
   .address-form, .forecast-area {
     max-width: 600px;
     margin: 0 auto;
-    padding-bottom: 20px;
     position: relative;
   }
 

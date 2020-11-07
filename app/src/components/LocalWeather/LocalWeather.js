@@ -41,7 +41,7 @@ function LocalWeather(props) {
 
   const useLocation = () => {
     if (!props.isGeolocationEnabled) {
-      alert('Please enable geolocation in your browser.');
+      alert('Please enable geolocation in your browser or start typing to search.');
     }
     else {
       if (props.coords && props.coords.latitude && props.coords.longitude) {
@@ -91,6 +91,9 @@ function LocalWeather(props) {
           <button onClick={ useLocation }>
             <FontAwesomeIcon icon={faLocationArrow} />
           </button>
+        }
+        { !props.isGeolocationEnabled &&
+          <div className="note">Looks like location is disabled in your browser.</div>
         }
 
         <div className="results">
