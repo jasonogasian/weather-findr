@@ -1,8 +1,18 @@
 const express = require('express');
 const fetch = require('node-fetch');
-const url = require('url');
-const config = require('../config');
+const NodeCache = require( "node-cache" );
 
+
+//
+// Set up an in-memory cache for weather responses.
+// Reduces the number of calls to the weather API
+// (~400ms down to ~15ms locally)
+//
+const weatherCache = new NodeCache({
+  stdTTL: 3600,      // 1 hour TTL
+  checkperiod: 3700, // Periodic delete check
+  useClones: false,  // Better perfomance, just pass by reference
+});
 
 
 const apiRouter = (logger) => {
@@ -39,35 +49,46 @@ const apiRouter = (logger) => {
           "Accept": "application/geo+json",
           "User-Agent": "(tahoe-bc-ski-forecast.com, jason@ogasian.com)"
         };
-        fetch(url, {
-          method  : 'GET', 
-          headers : headers,
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data && data.properties && data.properties.forecast) {
-            fetch(data.properties.forecast)
-            .then(response => response.json())
-            .then(data => {
-              if (data && data.properties) {
-                res.status(200).send(data.properties);
-              }
-              else {
-                res.status(500).send({error: 'Unable to fetch forecast'});
-              }
+
+        // First check the cache
+        const cached = weatherCache.get(url);
+        if (cached) {
+          res.status(200).send(cached);
+        }
+
+        // Not cached, fetch the data
+        else {
+          fetch(url, {
+            method  : 'GET', 
+            headers : headers,
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data && data.properties && data.properties.forecast) {
+              fetch(data.properties.forecast)
+              .then(response => response.json())
+              .then(data => {
+                if (data && data.properties) {
+                  res.status(200).send(data.properties);
+                  weatherCache.set(url, data.properties); // Store in local cache
+                }
+                else {
+                  res.status(500).send({error: 'Unable to fetch forecast'});
+                }
+              });
+            }
+            else {
+              res.status(500).send({error: 'Unable to reach forecast service'});
+            }
+          })
+          .catch(err => {
+            res.status(500).send({error: 'There was an error making the request.'});
+            logger.log({
+              level: 'error',
+              message: JSON.stringify(err),
             });
-          }
-          else {
-            res.status(500).send({error: 'Unable to reach forecast service'});
-          }
-        })
-        .catch(err => {
-          res.status(500).send({error: 'There was an error making the request.'});
-          logger.log({
-            level: 'error',
-            message: JSON.stringify(err),
           });
-        });
+        }
       }
 
       else {

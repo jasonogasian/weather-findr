@@ -1,7 +1,9 @@
-$formElementHeight: 30px;
+$formElementHeight: 34px;
 
 .App {
+  min-height: 100vh;
   text-align: center;
+  background-color: #efefef;
 
   header {
     background-color: #333;
@@ -27,5 +29,8 @@ $formElementHeight: 30px;
     box-sizing: border-box;
     height: $formElementHeight;
     padding: 6px;
+    border: none;
+    background-color: #fff;
+    font-size: 16px;
   }
 }

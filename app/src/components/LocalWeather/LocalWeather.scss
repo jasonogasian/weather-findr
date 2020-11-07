@@ -1,6 +1,12 @@
 .LocalWeather {
   padding: 20px 16px;
 
+  .title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .address-form, .forecast-area {
     max-width: 600px;
     margin: 0 auto;
@@ -16,11 +22,11 @@
     }
 
     input {
-      width: 80%;
+      width: 88%;
     }
 
     button {
-      width: 20%;
+      width: 12%;
       cursor: pointer;
     }
 

@@ -79,7 +79,7 @@ function LocalWeather(props) {
     <div className="LocalWeather">
 
       <div className="address-form">
-        <h4>{ title }</h4>
+        <h4 className="title">{ title }</h4>
         <input 
           name="address"
           placeholder="Search an address"
