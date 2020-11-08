@@ -66,7 +66,7 @@ function WeatherDotGov(props) {
 
 function getForecast(lat, lng) {
   return new Promise((resolve, reject) => {
-    const url = `/api/v1/forecast?lat=${lat.toFixed(4)}&lng=${lng.toFixed(4)}`;
+    const url = `/api/v1/forecast?lat=${lat.toFixed(5)}&lng=${lng.toFixed(5)}`;
     const headers = new Headers({
       "Accept": "application/geo+json",
       "User-Agent": "(tahoe-bc-ski-forecast.com, jason@ogasian.com)"

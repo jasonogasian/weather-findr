@@ -35,8 +35,8 @@ const apiRouter = (logger) => {
         // Cast the lat and lng into numbers for decimal truncation
         let { lat, lng } = req.query;
         try {
-          lat = parseFloat(lat).toFixed(4);
-          lng = parseFloat(lng).toFixed(4);
+          lat = parseFloat(lat).toFixed(5);
+          lng = parseFloat(lng).toFixed(5);
         } catch(err) {
           res.status(400).send({error: 'Invalid parameters. lat/lng must be valid numbers.'});
           logger.log({
@@ -53,41 +53,20 @@ const apiRouter = (logger) => {
           "User-Agent": "(tahoe-bc-ski-forecast.com, jason@ogasian.com)"
         };
 
-        // First check the cache
-        const cached = weatherCache.get(url);
-        if (cached) {
-          res.status(200).send(cached);
+        // First check the cache for the "points" data
+        const cachedPoints = weatherCache.get(url);
+        if (cachedPoints) {
+          fetchForecasts(res, cachedPoints, url);
         }
 
-        // Not cached, fetch the data
+        // Points NOT cached, fetch the data
         else {
           fetch(url, {
             method  : 'GET', 
             headers : headers,
           })
           .then(response => response.json())
-          .then(data => {
-            if (data && data.properties && data.properties.forecast && data.properties.forecastGridData) {
-              Promise.all([
-                fetch(data.properties.forecast),
-                fetch(data.properties.forecastGridData)
-              ])
-              .then(result => Promise.all(result.map(r => r.json())))
-              .then(([forecast, forecastGridData]) => {
-                if (forecast && forecast.properties && forecastGridData && forecastGridData.properties) {
-                  const data = {forecast: forecast.properties, forecastGridData: forecastGridData.properties};
-                  res.status(200).send(data);
-                  weatherCache.set(url, data); // Store in local cache
-                }
-                else {
-                  res.status(500).send({error: 'Unable to fetch forecast'});
-                }
-              });
-            }
-            else {
-              res.status(500).send({error: 'Unable to reach forecast service'});
-            }
-          })
+          .then(data => fetchForecasts(res, data, url))
           .catch(err => {
             res.status(500).send({error: 'There was an error making the request.'});
             logger.log({
@@ -107,3 +86,42 @@ const apiRouter = (logger) => {
   return api;
 }
 module.exports = apiRouter;
+
+
+function fetchForecasts(res, data, cacheKey) {
+  if (data && data.properties && data.properties.forecast && data.properties.forecastGridData) {
+    const forecastCacheKey = cacheKey+'/forecast';
+    const cachedForecast = weatherCache.get(forecastCacheKey);
+    
+    // Forecast cached
+    if (cachedForecast) {
+      res.status(200).send(cachedForecast);
+    }
+
+    // Forecast NOT cached
+    else {
+
+      Promise.all([
+        fetch(data.properties.forecast),
+        fetch(data.properties.forecastGridData)
+      ])
+      .then(result => Promise.all(result.map(r => r.json())))
+      .then(([forecast, forecastGridData]) => {
+        if (forecast && forecast.properties && forecastGridData && forecastGridData.properties) {
+          const data = {forecast: forecast.properties, forecastGridData: forecastGridData.properties};
+          res.status(200).send(data);
+          weatherCache.set(forecastCacheKey, data); // Store forecast in local cache
+        }
+        else {
+          res.status(500).send({error: 'Unable to fetch forecast'});
+        }
+      });
+    }
+
+    // Store the "points" data in cache for a week
+    weatherCache.set(cacheKey, data, 60 * 60 * 24 * 7);
+  }
+  else {
+    res.status(500).send({error: 'Unable to reach forecast service'});
+  }
+}
