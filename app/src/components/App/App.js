@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        Weather Findr&nbsp;&nbsp;
+        Tahoe Weather Findr&nbsp;&nbsp;
         <FontAwesomeIcon icon={faSnowflake} />
       </header>
 

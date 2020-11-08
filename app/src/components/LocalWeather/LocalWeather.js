@@ -37,7 +37,7 @@ function LocalWeather(props) {
     .then(response => response.json())
     .then(data => {
       if (data && data.length) {
-        setLocations(data);
+        setLocations(data[0].values);
       }
       else {
         alert('Oops, there was a problem loading locations. Please refresh the page to try again');
