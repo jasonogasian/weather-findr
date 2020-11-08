@@ -14,11 +14,13 @@ $formElementHeight: 34px;
 
   button {
     background-color: cornflowerblue;
-    color: #333;
+    color: #111;
     border: none;
     height: $formElementHeight;
     box-sizing: border-box;
-    padding: 6px 0;
+    padding: 6px;
+    font-weight: bold;
+    cursor: pointer;
 
     &:hover {
       background-color: #6b9bef;

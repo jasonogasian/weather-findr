@@ -14,24 +14,26 @@ function WeatherDotGov(props) {
   const [ loading, setLoading ] = useState(false);
   const [ forecast, setForecast ] = useState(null);
   const [ currentWeather, setCurrentWeather ] = useState(null);
+  const { lat, lng, onElevation } = props;
 
 
   useEffect(() => {
-    if (props.lat && props.lng) {
+    if (lat && lng) {
       setLoading(true);
-      getForecast(props.lat, props.lng)
+      getForecast(lat, lng)
       .then(data => {
         setForecast(data.forecast);
         setCurrentWeather(data.forecastGridData);
+
         if (data.forecastGridData.elevation) {
-          props.onElevation(data.forecastGridData.elevation);
+          onElevation(data.forecastGridData.elevation);
         }
       })
       .finally(() => {
         setLoading(false);
       });
     }
-  }, [props.lat, props.lng]);
+  }, [lat, lng, onElevation]);
 
 
   if (loading || (!loading && !forecast)) {

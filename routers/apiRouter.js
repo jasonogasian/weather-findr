@@ -1,5 +1,6 @@
 const express = require('express');
 const fetch = require('node-fetch');
+const locations = require('../data/locations');
 const NodeCache = require( "node-cache" );
 
 
@@ -19,10 +20,12 @@ const apiRouter = (logger) => {
 
   const api = express.Router();
 
-
   //
   // V1
   //
+  api.get('/v1/locations', (req, res, next) => res.send(locations));
+
+
   api.get(
     '/v1/forecast',
     // TODO -> extract this into it's own interface so it can easily be swapped with another server if needed

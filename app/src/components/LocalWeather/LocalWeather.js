@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { geolocated } from "react-geolocated";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
 import WeatherDotGov from "components/WeatherDotGov/WeatherDotGov";
 import Spinner from "components/Spinner/Spinner";
-import { celcius2Farenheight, meters2Feet } from "lib/conversions";
+import { meters2Feet } from "lib/conversions";
 
 import './LocalWeather.scss';
+import Locations from "components/Locations/Locations";
 
 const KEY = 'WQ0S7HvMWzBP1j91kqF81Ypf80AGX7Dx';
 
@@ -22,6 +23,7 @@ function LocalWeather(props) {
   const [ longitude, setLongitude ] = useState(null);
   const [ addressResults, setAddressResults ] = useState([]);
   const [ elevation, setElevation ] = useState('');
+  const [ locations, setLocations ] = useState([]);
   const browserLat = props.coords ? props.coords.latitude : null;
   const browserLng = props.coords ? props.coords.longitude : null;
 
@@ -29,6 +31,22 @@ function LocalWeather(props) {
   const lng = longitude || browserLng;
 
 
+  // Load static locations
+  useEffect(() => {
+    fetch('/api/v1/locations')
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.length) {
+        setLocations(data);
+      }
+      else {
+        alert('Oops, there was a problem loading locations. Please refresh the page to try again');
+      }
+    })
+  }, []);
+
+
+  // Fetch address predictions
   useEffect(() => {
     if (search.length >= 3) {
       predict(search)
@@ -61,12 +79,13 @@ function LocalWeather(props) {
   const chooseResult = result => {
     if (result.place && result.place.geometry && result.place.geometry.coordinates) {
       const [lng, lat] = result.place.geometry.coordinates;
-      setLatitude(lat);
-      setLongitude(lng);
-      setSearch('');
-      setAddressResults([]);
-      setTitle(result.displayString);
+      updateChosen(result.displayString, lat, lng);
     }
+  }
+
+
+  const handleChooseLocation = loc => {
+    updateChosen(loc.label, loc.geo.lat, loc.geo.lng);
   }
 
 
@@ -78,17 +97,29 @@ function LocalWeather(props) {
   }
 
 
-  const handleElevation = e => {
+  const updateChosen = (label, lat, lng) => {
+    setLatitude(lat);
+    setLongitude(lng);
+    setElevation('');
+    setSearch('');
+    setAddressResults([]);
+    setTitle(label);
+  }
+
+
+  // Memoized to prevent re-renders of WeatherDotGov component
+  const handleElevation = useCallback(e => {
     let elev = e.value;
     if (e.unitCode.match(/:m$/)) {
       elev = meters2Feet(e.value);
     }
     setElevation(Math.round(elev));
-  }
+  }, [setElevation]);
   
 
   return (
     <div className="LocalWeather">
+      <Locations data={ locations } onChoose={ handleChooseLocation } />
 
       <div className="address-form">
         <h4 className="title">{ title }</h4>
