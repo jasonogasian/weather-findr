@@ -1,8 +1,21 @@
 .Locations {
+  position: absolute;
+  transform: translateX(-220px);
+  transition: transform 300ms;
+  background: #fff;
+  z-index: 10;
+  width: 220px;
+  top: 0;
+  left: 0;
+  min-height: 100%;
+
+  &.active {
+    transform: translateX(0);
+  }
   
   .location {
     font-size: 12px;
-    display: inline-block;
+    display: block;
     padding: 4px 8px;
     height: auto;
     margin: 4px;

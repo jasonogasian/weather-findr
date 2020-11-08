@@ -24,6 +24,7 @@ function LocalWeather(props) {
   const [ addressResults, setAddressResults ] = useState([]);
   const [ elevation, setElevation ] = useState('');
   const [ locations, setLocations ] = useState([]);
+  const [ showLocations, setShowLocations ] = useState(false);
   const browserLat = props.coords ? props.coords.latitude : null;
   const browserLng = props.coords ? props.coords.longitude : null;
 
@@ -37,7 +38,7 @@ function LocalWeather(props) {
     .then(response => response.json())
     .then(data => {
       if (data && data.length) {
-        setLocations(data[0].values);
+        setLocations(data[1].values);
       }
       else {
         alert('Oops, there was a problem loading locations. Please refresh the page to try again');
@@ -86,6 +87,7 @@ function LocalWeather(props) {
 
   const handleChooseLocation = loc => {
     updateChosen(loc.label, loc.geo.lat, loc.geo.lng);
+    setShowLocations(false);
   }
 
 
@@ -115,11 +117,16 @@ function LocalWeather(props) {
     }
     setElevation(Math.round(elev));
   }, [setElevation]);
+
+
+  const toggleShowLocations = () => {
+    setShowLocations(show => !show);
+  }
   
 
   return (
     <div className="LocalWeather">
-      <Locations data={ locations } onChoose={ handleChooseLocation } />
+      <Locations active={ showLocations } data={ locations } onChoose={ handleChooseLocation } />
 
       <div className="address-form">
         <h4 className="title">{ title }</h4>
@@ -133,13 +140,17 @@ function LocalWeather(props) {
           onChange={ e => setSearch(e.target.value) } />
 
         { props.isGeolocationAvailable &&
-          <button onClick={ useLocation }>
+          <button className="loc" onClick={ useLocation }>
             <FontAwesomeIcon icon={faLocationArrow} />
           </button>
         }
         { !props.isGeolocationEnabled &&
           <div className="note">Looks like location is disabled in your browser.</div>
         }
+
+        <button onClick={ toggleShowLocations }>
+          Show Summit Options
+        </button>
 
         <div className="results">
           { addressResults.map(r => (

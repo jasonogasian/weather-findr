@@ -1,5 +1,7 @@
 .LocalWeather {
+  min-height: 100vh;
   padding: 20px 16px;
+  position: relative;
 
   .title {
     white-space: nowrap;
@@ -29,7 +31,7 @@
   .address-form {
     max-width: 400px;
 
-    input, button {
+    input, button.loc {
       vertical-align: top;
     }
 
@@ -37,7 +39,7 @@
       width: 88%;
     }
 
-    button {
+    button.loc {
       width: 12%;
       cursor: pointer;
     }

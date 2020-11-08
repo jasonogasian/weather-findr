@@ -2,9 +2,10 @@ import './Locations.scss';
 
 
 const Locations = (props) => {
+  const className = `Locations ${props.active ? 'active' : ''}`;
 
   return (
-    <div className="Locations">
+    <div className={ className }>
       {
         props.data.map(l => (
           <button key={ getKey(l.geo) } className="location" onClick={ () => props.onChoose(l) }>
