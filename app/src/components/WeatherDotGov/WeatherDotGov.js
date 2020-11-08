@@ -13,14 +13,19 @@ library.add(faLocationArrow);
 function WeatherDotGov(props) {
   const [ loading, setLoading ] = useState(false);
   const [ forecast, setForecast ] = useState(null);
+  const [ currentWeather, setCurrentWeather ] = useState(null);
 
 
   useEffect(() => {
     if (props.lat && props.lng) {
       setLoading(true);
       getForecast(props.lat, props.lng)
-      .then(forecast => {
-        setForecast(forecast);
+      .then(data => {
+        setForecast(data.forecast);
+        setCurrentWeather(data.forecastGridData);
+        if (data.forecastGridData.elevation) {
+          props.onElevation(data.forecastGridData.elevation);
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -35,6 +40,7 @@ function WeatherDotGov(props) {
 
  
   const periods = forecast && forecast.periods ? forecast.periods.slice(0, 3) : {};
+  console.log('Current', currentWeather);
   return (
     <div className="WeatherDotGov">
 
@@ -69,7 +75,7 @@ function getForecast(lat, lng) {
     })
     .then(response => response.json())
     .then(data => {
-      if (data && data.periods) {
+      if (data && data.forecast && data.forecast.periods && data.forecastGridData) {
         resolve(data);
       }
       else {

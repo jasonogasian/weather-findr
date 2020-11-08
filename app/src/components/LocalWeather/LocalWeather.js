@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
 import WeatherDotGov from "components/WeatherDotGov/WeatherDotGov";
 import Spinner from "components/Spinner/Spinner";
+import { celcius2Farenheight, meters2Feet } from "lib/conversions";
 
 import './LocalWeather.scss';
 
@@ -20,6 +21,7 @@ function LocalWeather(props) {
   const [ latitude, setLatitude ] = useState(null);
   const [ longitude, setLongitude ] = useState(null);
   const [ addressResults, setAddressResults ] = useState([]);
+  const [ elevation, setElevation ] = useState('');
   const browserLat = props.coords ? props.coords.latitude : null;
   const browserLng = props.coords ? props.coords.longitude : null;
 
@@ -74,6 +76,15 @@ function LocalWeather(props) {
       setAddressResults([]);
     }, 50);
   }
+
+
+  const handleElevation = e => {
+    let elev = e.value;
+    if (e.unitCode.match(/:m$/)) {
+      elev = meters2Feet(e.value);
+    }
+    setElevation(Math.round(elev));
+  }
   
 
   return (
@@ -81,6 +92,8 @@ function LocalWeather(props) {
 
       <div className="address-form">
         <h4 className="title">{ title }</h4>
+        <h6>{ elevation } { elevation ? 'ft' : '--' }</h6>
+
         <input 
           name="address"
           placeholder="Search an address"
@@ -109,7 +122,7 @@ function LocalWeather(props) {
 
       { lat && lng &&
         <div className="forecast-area">
-          <WeatherDotGov lat={lat} lng={lng} />
+          <WeatherDotGov lat={lat} lng={lng} onElevation={ handleElevation } />
         </div>
       }
 

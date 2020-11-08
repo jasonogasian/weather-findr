@@ -64,13 +64,17 @@ const apiRouter = (logger) => {
           })
           .then(response => response.json())
           .then(data => {
-            if (data && data.properties && data.properties.forecast) {
-              fetch(data.properties.forecast)
-              .then(response => response.json())
-              .then(data => {
-                if (data && data.properties) {
-                  res.status(200).send(data.properties);
-                  weatherCache.set(url, data.properties); // Store in local cache
+            if (data && data.properties && data.properties.forecast && data.properties.forecastGridData) {
+              Promise.all([
+                fetch(data.properties.forecast),
+                fetch(data.properties.forecastGridData)
+              ])
+              .then(result => Promise.all(result.map(r => r.json())))
+              .then(([forecast, forecastGridData]) => {
+                if (forecast && forecast.properties && forecastGridData && forecastGridData.properties) {
+                  const data = {forecast: forecast.properties, forecastGridData: forecastGridData.properties};
+                  res.status(200).send(data);
+                  weatherCache.set(url, data); // Store in local cache
                 }
                 else {
                   res.status(500).send({error: 'Unable to fetch forecast'});
