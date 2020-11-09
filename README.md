@@ -2,6 +2,8 @@
 
 This is a hobby project to build a Node-based server with a React UI that shows weather forecast and conditions relevant to the winter community in the Lake Tahoe area.
 
+View it live: (https://tahoe-weather-findr.herokuapp.com)[https://tahoe-weather-findr.herokuapp.com]
+
 
 ## Development
 
