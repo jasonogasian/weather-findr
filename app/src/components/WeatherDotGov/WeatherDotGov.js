@@ -44,33 +44,16 @@ function WeatherDotGov(props) {
 
  
   const periods = forecast && forecast.periods ? forecast.periods.slice(0, 3) : {};
-  let currTemp = '--';
-  let maxTemp = '--';
-  let minTemp = '--';
-  let snowLevel = '--';
-  let windChill = '--';
-  let wind = '--';
-  let gusts = '--';
-  let skyCover = '--';
-  try {
-    currTemp = Math.round(celcius2Farenheight(currentWeather.temperature.values[0].value));
-    maxTemp = Math.round(celcius2Farenheight(currentWeather.maxTemperature.values[0].value));
-    minTemp = Math.round(celcius2Farenheight(currentWeather.minTemperature.values[0].value));
-    snowLevel = Math.round(meters2Feet(currentWeather.snowLevel.values[0].value));
-    windChill = Math.round(celcius2Farenheight(currentWeather.windChill.values[0].value));
-    wind = Math.round(km2Mi(currentWeather.windSpeed.values[0].value));
-    gusts = Math.round(km2Mi(currentWeather.windGust.values[0].value));
-    skyCover = Math.round(km2Mi(currentWeather.skyCover.values[0].value));
-  } catch(err) {
-    currTemp = 'Error';
-    maxTemp = 'Error';
-    minTemp = 'Error';
-    snowLevel = 'Error';
-    windChill = 'Error';
-    wind = 'Error';
-    gusts = 'Error';
-    skyCover = 'Error';
-  }
+
+  const currTemp = extractNumericData(currentWeather.temperature, celcius2Farenheight);
+  const maxTemp = extractNumericData(currentWeather.maxTemperature, celcius2Farenheight);
+  const minTemp = extractNumericData(currentWeather.minTemperature, celcius2Farenheight);
+  const snowLevel = extractNumericData(currentWeather.snowLevel, meters2Feet);
+  const windChill = extractNumericData(currentWeather.windChill, celcius2Farenheight);
+  const wind = extractNumericData(currentWeather.windSpeed, km2Mi);
+  const gusts = extractNumericData(currentWeather.windGust, km2Mi);
+  const skyCover = extractNumericData(currentWeather.skyCover, km2Mi);
+  
   console.log('Current', currentWeather);
   return (
     <div className="WeatherDotGov">
@@ -158,6 +141,22 @@ function getForecast(lat, lng) {
       alert('Ooops, there was a problem loading your forecast. Please try again later.');
     });
   });
+}
+
+
+function extractNumericData(dataPoint, conversion) {
+  let data = '--';
+  try {
+    if (conversion) {
+      data = Math.round(conversion(dataPoint.values[0].value));
+    }
+    else {
+      data = Math.round(dataPoint.values[0].value);
+    }
+  } catch(err) {
+    data = 'Error';
+  }
+  return data
 }
 
 
