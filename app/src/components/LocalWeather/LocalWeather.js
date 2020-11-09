@@ -175,12 +175,13 @@ function LocalWeather(props) {
 function predict(search) {
   return new Promise((resolve, reject) => {
     if (!search) {
-      return resolve([]);
+      resolve([]);
     }
-
-    fetchPredictions(search)
-    .then(resolve)
-    .catch(reject);
+    else {
+      fetchPredictions(search)
+      .then(resolve)
+      .catch(reject);
+    }
   });
 }
 
