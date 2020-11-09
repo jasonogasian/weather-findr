@@ -114,6 +114,10 @@ function fetchForecasts(res, data, cacheKey) {
         }
         else {
           res.status(500).send({error: 'Unable to fetch forecast'});
+          logger.log({
+            level: 'error',
+            message: "Bad forecast received.\n" + JSON.stringify(forecast) + "\n" + JSON.stringify(forecastGridData)
+          });
         }
       });
     }
@@ -123,5 +127,9 @@ function fetchForecasts(res, data, cacheKey) {
   }
   else {
     res.status(500).send({error: 'Unable to reach forecast service'});
+    logger.log({
+      level: 'error',
+      message: "Bad points data.\n" + JSON.stringify(data)
+    });
   }
 }

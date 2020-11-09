@@ -8,16 +8,40 @@
   top: 0;
   left: 0;
   min-height: 100%;
+  padding-bottom: 20px;
+  box-shadow: 4px 5px 12px 0px rgba(0,0,0,0.75);
 
   &.active {
     transform: translateX(0);
+  }
+
+  .group-label {
+    font-weight: bold;
+    background-color: #333;
+    color: #FFF;
+    padding: 4px 0;
+    
+    &:not(:first-of-type) {
+      margin-top: 20px;
+    }
   }
   
   .location {
     font-size: 12px;
     display: block;
-    padding: 4px 8px;
+    padding: 5px 8px;
     height: auto;
     margin: 4px;
+    background: none;
+    font-weight: normal;
+
+    &:hover {
+      background: none;
+      color: #666;
+    }
+
+    @media screen and (max-width: 500px) {
+      font-size: 16px;
+    }
   }
 }

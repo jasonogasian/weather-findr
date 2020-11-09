@@ -4,15 +4,24 @@ import './Locations.scss';
 const Locations = (props) => {
   const className = `Locations ${props.active ? 'active' : ''}`;
 
-  return (
-    <div className={ className }>
-      {
-        props.data.map(l => (
+
+  const renderGroup = group => {
+    return (
+      <div key={group.groupLabel} className="group">
+        <div className="group-label">{ group.groupLabel }</div>
+        { group.values.map(l => (
           <button key={ getKey(l.geo) } className="location" onClick={ () => props.onChoose(l) }>
             { l.label }
           </button>
-        ))
-      }
+        ))}
+      </div>
+    )
+  }
+
+
+  return (
+    <div className={ className }>
+      { props.data.map(renderGroup) }
     </div>
   );
 }
