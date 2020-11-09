@@ -38,26 +38,18 @@ function WeatherDotGov(props) {
   }, [lat, lng, onElevation]);
 
 
-  if (loading || (!loading && !forecast)) {
-    return <Spinner />;
-  }
-
- 
-  const periods = forecast && forecast.periods ? forecast.periods.slice(0, 3) : {};
-
-  const currTemp = extractNumericData(currentWeather.temperature, celcius2Farenheight);
-  const maxTemp = extractNumericData(currentWeather.maxTemperature, celcius2Farenheight);
-  const minTemp = extractNumericData(currentWeather.minTemperature, celcius2Farenheight);
-  const snowLevel = extractNumericData(currentWeather.snowLevel, meters2Feet);
-  const windChill = extractNumericData(currentWeather.windChill, celcius2Farenheight);
-  const wind = extractNumericData(currentWeather.windSpeed, km2Mi);
-  const gusts = extractNumericData(currentWeather.windGust, km2Mi);
-  const skyCover = extractNumericData(currentWeather.skyCover, km2Mi);
-  
-  console.log('Current', currentWeather);
-  return (
-    <div className="WeatherDotGov">
-
+  const renderCurrentConditions = () => {
+    const currTemp = extractNumericData(currentWeather.temperature, celcius2Farenheight);
+    const maxTemp = extractNumericData(currentWeather.maxTemperature, celcius2Farenheight);
+    const minTemp = extractNumericData(currentWeather.minTemperature, celcius2Farenheight);
+    const snowLevel = extractNumericData(currentWeather.snowLevel, meters2Feet);
+    const windChill = extractNumericData(currentWeather.windChill, celcius2Farenheight);
+    const wind = extractNumericData(currentWeather.windSpeed, km2Mi);
+    const gusts = extractNumericData(currentWeather.windGust, km2Mi);
+    const skyCover = extractNumericData(currentWeather.skyCover, km2Mi);
+    // console.log('Current', currentWeather);
+    
+    return (
       <div className="current-conditions">
         <h4>Current Conditions</h4>
 
@@ -103,9 +95,20 @@ function WeatherDotGov(props) {
             <div>{ skyCover }%</div>
           </div>
         </div>
-
-        
       </div>
+    );
+  }
+
+
+  if (loading || (!loading && !forecast)) {
+    return <Spinner />;
+  }
+
+  const periods = forecast && forecast.periods ? forecast.periods.slice(0, 3) : {};
+  return (
+    <div className="WeatherDotGov">
+
+      { renderCurrentConditions() }
 
       { periods.map(period => (
         <div key={ period.number } className="forecast">

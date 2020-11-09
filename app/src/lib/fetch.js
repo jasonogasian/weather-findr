@@ -17,7 +17,7 @@ export const fetchLocations = () => {
 const KEY = 'WQ0S7HvMWzBP1j91kqF81Ypf80AGX7Dx';
 export const fetchPredictions = search=> {
   return new Promise((resolve, reject) => {
-    const url = `http://www.mapquestapi.com/search/v3/prediction?key=${KEY}&limit=5&collection=poi,address&q=${search}`;
+    const url = `https://www.mapquestapi.com/search/v3/prediction?key=${KEY}&limit=5&collection=poi,address&q=${search}`;
     fetch(url)
     .then(response => resolve(response.json()))
     .catch(reject);

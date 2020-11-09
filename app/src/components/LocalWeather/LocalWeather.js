@@ -140,9 +140,6 @@ function LocalWeather(props) {
             <FontAwesomeIcon icon={faLocationArrow} />
           </button>
         }
-        { !props.isGeolocationEnabled &&
-          <div className="note">Looks like location is disabled in your browser.</div>
-        }
 
         <div className="results">
           { addressResults.map(r => (
@@ -151,6 +148,10 @@ function LocalWeather(props) {
             </div>
           ))}
         </div>
+        
+        { !props.isGeolocationEnabled &&
+          <div className="note">Looks like location is disabled in your browser.</div>
+        }
 
         <button className="summit-button" onClick={ toggleShowLocations }>
           Show Summit Options
