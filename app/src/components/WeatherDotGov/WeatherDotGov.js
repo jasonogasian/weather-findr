@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { fetchForecast } from "lib/fetch";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "components/Spinner/Spinner";
@@ -66,16 +67,7 @@ function WeatherDotGov(props) {
 
 function getForecast(lat, lng) {
   return new Promise((resolve, reject) => {
-    const url = `/api/v1/forecast?lat=${lat.toFixed(5)}&lng=${lng.toFixed(5)}`;
-    const headers = new Headers({
-      "Accept": "application/geo+json",
-      "User-Agent": "(tahoe-bc-ski-forecast.com, jason@ogasian.com)"
-    });
-    fetch(url, {
-      method  : 'GET', 
-      headers : headers,
-    })
-    .then(response => response.json())
+    fetchForecast(lat, lng)
     .then(data => {
       if (data && data.forecast && data.forecast.periods && data.forecastGridData) {
         resolve(data);

@@ -1,16 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { geolocated } from "react-geolocated";
+import { fetchLocations, fetchPredictions } from "lib/fetch";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
 import WeatherDotGov from "components/WeatherDotGov/WeatherDotGov";
 import Spinner from "components/Spinner/Spinner";
 import { meters2Feet } from "lib/conversions";
-
-import './LocalWeather.scss';
 import Locations from "components/Locations/Locations";
 
-const KEY = 'WQ0S7HvMWzBP1j91kqF81Ypf80AGX7Dx';
+import './LocalWeather.scss';
 
 
 // Icons
@@ -34,8 +33,7 @@ function LocalWeather(props) {
 
   // Load static locations
   useEffect(() => {
-    fetch('/api/v1/locations')
-    .then(response => response.json())
+    fetchLocations()
     .then(data => {
       if (data && data.length) {
         setLocations(data[1].values);
@@ -51,9 +49,7 @@ function LocalWeather(props) {
   useEffect(() => {
     if (search.length >= 3) {
       predict(search)
-      .then(results => {
-        setAddressResults(results.results);  
-      });
+      .then(results => setAddressResults(results.results));
     }
     else if (!search) {
       setAddressResults([]);
@@ -182,19 +178,16 @@ function predict(search) {
       return resolve([]);
     }
 
-    const url = `http://www.mapquestapi.com/search/v3/prediction?key=${KEY}&limit=5&collection=poi,address&q=${search}`;
-    fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      resolve(data);
-    });
+    fetchPredictions(search)
+    .then(resolve)
+    .catch(reject);
   });
 }
 
 
 export default geolocated({
   positionOptions: {
-      enableHighAccuracy: false,
+    enableHighAccuracy: false,
   },
   userDecisionTimeout: 5000,
 })(LocalWeather);
