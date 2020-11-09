@@ -64,7 +64,7 @@ $inputWidth: 88%;
       z-index: 1;
       width: $inputWidth;
       box-sizing: border-box;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.93);
       border-left: 1px solid $borderColor;
       border-right: 1px solid $borderColor;
 
@@ -73,6 +73,7 @@ $inputWidth: 88%;
         padding: 6px 4px;
         font-size: 12px;
         cursor: pointer;
+        font-weight: bold;
 
         &:hover {
           background-color: lightgray;
@@ -87,6 +88,7 @@ $inputWidth: 88%;
     padding-right: 15px;
     
     @media #{$isPhone} {
+      margin-top: 20px;
       font-size: 16px;
     }
   }

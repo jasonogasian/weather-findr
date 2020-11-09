@@ -5,6 +5,7 @@ import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "components/Spinner/Spinner";
 
 import './WeatherDotGov.scss';
+import { celcius2Farenheight, km2Mi, meters2Feet } from "lib/conversions";
 
 
 // Icons
@@ -43,9 +44,85 @@ function WeatherDotGov(props) {
 
  
   const periods = forecast && forecast.periods ? forecast.periods.slice(0, 3) : {};
+  let currTemp = '--';
+  let maxTemp = '--';
+  let minTemp = '--';
+  let snowLevel = '--';
+  let windChill = '--';
+  let wind = '--';
+  let gusts = '--';
+  let skyCover = '--';
+  try {
+    currTemp = Math.round(celcius2Farenheight(currentWeather.temperature.values[0].value));
+    maxTemp = Math.round(celcius2Farenheight(currentWeather.maxTemperature.values[0].value));
+    minTemp = Math.round(celcius2Farenheight(currentWeather.minTemperature.values[0].value));
+    snowLevel = Math.round(meters2Feet(currentWeather.snowLevel.values[0].value));
+    windChill = Math.round(celcius2Farenheight(currentWeather.windChill.values[0].value));
+    wind = Math.round(km2Mi(currentWeather.windSpeed.values[0].value));
+    gusts = Math.round(km2Mi(currentWeather.windGust.values[0].value));
+    skyCover = Math.round(km2Mi(currentWeather.skyCover.values[0].value));
+  } catch(err) {
+    currTemp = 'Error';
+    maxTemp = 'Error';
+    minTemp = 'Error';
+    snowLevel = 'Error';
+    windChill = 'Error';
+    wind = 'Error';
+    gusts = 'Error';
+    skyCover = 'Error';
+  }
   console.log('Current', currentWeather);
   return (
     <div className="WeatherDotGov">
+
+      <div className="current-conditions">
+        <h4>Current Conditions</h4>
+
+        <div className="temps inline">
+          <div className="current-temp">{ currTemp }&deg;F</div>
+
+          <div>
+            <div className="inline">
+              <label>High</label>
+              <div>{ maxTemp }&deg;F</div>
+            </div>
+            <div className="inline">
+              <label>Low</label>
+              <div>{ minTemp }&deg;F</div>
+            </div>
+          </div>
+
+          <div>
+            <label>Wind Chill</label>
+            <div>{ windChill }&deg;F</div>
+          </div>
+        </div>
+
+        <div className="inline">
+          <div>
+            <label>Snow Level</label>
+            <div>{ snowLevel }ft</div>
+          </div>
+
+          <div>
+            <div className="inline">
+              <label>Wind</label>
+              <div>{ wind }mph</div>
+            </div>
+            <div className="inline">
+              <label>Gusts</label>
+              <div>{ gusts }mph</div>
+            </div>
+          </div>
+
+          <div>
+            <label>Cloud Cover</label>
+            <div>{ skyCover }%</div>
+          </div>
+        </div>
+
+        
+      </div>
 
       { periods.map(period => (
         <div key={ period.number } className="forecast">

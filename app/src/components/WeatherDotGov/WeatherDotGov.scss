@@ -2,6 +2,45 @@
 
 .WeatherDotGov {
 
+  h4 {
+    @media #{$isPhone} {
+      font-size: 20px;
+    }
+  }
+
+  .inline {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 8px;
+  }
+
+  .current-conditions {
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border: 1px solid #666;
+    font-weight: bold;
+
+    h4 {
+      margin-bottom: 8px;
+    }
+
+    .temps {
+      margin-right: 25px;
+
+      .current-temp {
+        font-size: 45px;
+      }
+
+      .inline {
+        margin-top: 0;
+      }
+    }
+
+    label {
+      color: #666;
+    }
+  }
+
   .forecast {
     padding: 20px;
     padding-bottom: 30px;
