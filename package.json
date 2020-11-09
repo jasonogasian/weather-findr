@@ -1,6 +1,9 @@
 {
   "name": "weather-app",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.x"
+  },
   "description": "Application to display location-based weather to the user.",
   "main": "server.js",
   "dependencies": {
@@ -21,7 +24,7 @@
     "start-dev": "run-p start-server start-app",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "build": "cd app && npm run build"
+    "build": "cd app && npm install && npm run build"
   },
   "author": "Jason Ogasian",
   "license": "ISC"
