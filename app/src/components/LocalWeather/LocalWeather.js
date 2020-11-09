@@ -36,7 +36,7 @@ function LocalWeather(props) {
     fetchLocations()
     .then(data => {
       if (data && data.length) {
-        setLocations(data[1].values);
+        setLocations(data[0].values);
       }
       else {
         alert('Oops, there was a problem loading locations. Please refresh the page to try again');
@@ -91,7 +91,7 @@ function LocalWeather(props) {
     // Short delay so that the user can click an option in the results
     setTimeout(() => {
       setAddressResults([]);
-    }, 50);
+    }, 10);
   }
 
 
@@ -136,7 +136,7 @@ function LocalWeather(props) {
           onChange={ e => setSearch(e.target.value) } />
 
         { props.isGeolocationAvailable &&
-          <button className="loc" onClick={ useLocation }>
+          <button className="loc" aria-label="use my location" onClick={ useLocation }>
             <FontAwesomeIcon icon={faLocationArrow} />
           </button>
         }
@@ -150,11 +150,10 @@ function LocalWeather(props) {
 
         <div className="results">
           { addressResults.map(r => (
-              <div key={r.id} className="result" onClick={() => chooseResult(r)}>
-                {r.displayString}
-              </div>
-            ))
-          }
+            <div key={r.id} className="result" onClick={() => chooseResult(r)}>
+              {r.displayString}
+            </div>
+          ))}
         </div>
       </div>
 
