@@ -6,12 +6,13 @@ $inputWidth: 88%;
 .LocalWeather {
   min-height: 100vh;
   padding: 20px 16px;
-  // position: relative;
 
   .title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 18px;
+    margin-top: 14px;
 
     @media #{$isPhone} {
       font-size: 22px;
@@ -21,6 +22,7 @@ $inputWidth: 88%;
 
   h6 {
     margin-top: -16px;
+    font-size: 12px;
 
     @media #{$isPhone} {
       font-size: 14px;
