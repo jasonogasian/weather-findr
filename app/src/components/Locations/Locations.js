@@ -21,6 +21,7 @@ const Locations = (props) => {
 
   return (
     <div className={ className }>
+      <h4>Choose a Summit</h4>
       { props.data.map(renderGroup) }
     </div>
   );

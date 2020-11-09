@@ -1,16 +1,31 @@
+@import 'variables.scss';
+
+$borderColor: #666;
+$inputWidth: 88%;
+
 .LocalWeather {
   min-height: 100vh;
   padding: 20px 16px;
-  position: relative;
+  // position: relative;
 
   .title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    @media #{$isPhone} {
+      font-size: 22px;
+      margin-top: 10px;
+    }
   }
 
   h6 {
     margin-top: -16px;
+
+    @media #{$isPhone} {
+      font-size: 14px;
+      margin-top: -22px;
+    }
   }
 
   .note {
@@ -36,25 +51,25 @@
     }
 
     input {
-      width: 88%;
+      width: $inputWidth;
     }
 
     button.loc {
-      width: 12%;
+      width: 100% - $inputWidth;
       cursor: pointer;
     }
 
     .results {
       position: absolute;
       z-index: 1;
-      width: 100%;
+      width: $inputWidth;
       box-sizing: border-box;
       background: rgba(255, 255, 255, 0.9);
-      border-left: 1px solid #666;
-      border-right: 1px solid #666;
+      border-left: 1px solid $borderColor;
+      border-right: 1px solid $borderColor;
 
       .result {
-        border-bottom: 1px solid #666;
+        border-bottom: 1px solid $borderColor;
         padding: 6px 4px;
         font-size: 12px;
         cursor: pointer;
@@ -63,6 +78,16 @@
           background-color: lightgray;
         }
       }
+    }
+  }
+
+  .summit-button {
+    margin-top: 12px;
+    padding-left: 15px;
+    padding-right: 15px;
+    
+    @media #{$isPhone} {
+      font-size: 16px;
     }
   }
 }

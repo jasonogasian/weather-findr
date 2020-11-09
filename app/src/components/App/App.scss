@@ -1,9 +1,15 @@
+@import 'variables.scss';
+
 $formElementHeight: 34px;
 
 .App {
   min-height: 100vh;
   text-align: center;
-  background-color: #efefef;
+  font-size: 14px;
+
+  @media #{$isPhone} {
+    font-size: 18px;
+  }
 
   header {
     background-color: #333;

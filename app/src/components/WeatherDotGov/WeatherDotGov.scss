@@ -1,3 +1,5 @@
+@import 'variables.scss';
+
 .WeatherDotGov {
 
   .forecast {
@@ -5,7 +7,7 @@
     padding-bottom: 30px;
     animation: fadeIn 700ms ease-in-out;
 
-    @media screen and (max-width:500px) {
+    @media #{$isPhone} {
       padding: 20px 0;
     }
     

@@ -144,10 +144,6 @@ function LocalWeather(props) {
           <div className="note">Looks like location is disabled in your browser.</div>
         }
 
-        <button onClick={ toggleShowLocations }>
-          Show Summit Options
-        </button>
-
         <div className="results">
           { addressResults.map(r => (
             <div key={r.id} className="result" onClick={() => chooseResult(r)}>
@@ -155,6 +151,10 @@ function LocalWeather(props) {
             </div>
           ))}
         </div>
+
+        <button className="summit-button" onClick={ toggleShowLocations }>
+          Show Summit Options
+        </button>
       </div>
 
       { lat && lng &&
