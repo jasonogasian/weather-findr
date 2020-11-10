@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import { fetchForecast } from "lib/fetch";
 import { library } from "@fortawesome/fontawesome-svg-core";
+import { celcius2Farenheight, km2Mi, meters2Feet } from "lib/conversions";
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "components/Spinner/Spinner";
+// import { Chart } from 'react-charts'
 
 import './WeatherDotGov.scss';
-import { celcius2Farenheight, km2Mi, meters2Feet } from "lib/conversions";
+
+
+// Config constants
+const SHOW_DETAILED_COUNT = 4;
 
 
 // Icons
@@ -38,23 +43,47 @@ function WeatherDotGov(props) {
   }, [lat, lng, onElevation]);
 
 
-  const renderCurrentConditions = () => {
-    const currTemp = extractNumericData(currentWeather.temperature, celcius2Farenheight);
-    const maxTemp = extractNumericData(currentWeather.maxTemperature, celcius2Farenheight);
-    const minTemp = extractNumericData(currentWeather.minTemperature, celcius2Farenheight);
-    const snowLevel = extractNumericData(currentWeather.snowLevel, meters2Feet);
-    const windChill = extractNumericData(currentWeather.windChill, celcius2Farenheight);
-    const wind = extractNumericData(currentWeather.windSpeed, km2Mi);
-    const gusts = extractNumericData(currentWeather.windGust, km2Mi);
-    const skyCover = extractNumericData(currentWeather.skyCover, km2Mi);
-    // console.log('Current', currentWeather);
+  const renderSimpleFrecast = () => {
+    const periods = forecast && forecast.periods ? forecast.periods.slice(0, 3) : {};
+    return periods.map(period => (
+      <div key={ period.number } className="forecast">
+        <h4>{ period.name }'s Forecast</h4>
+        <div className="simple">
+          <div className="weather-icon">
+            <img alt={ period.shortForecast } className="weather-icon" src={ period.icon } />
+          </div>
+          <div className="simple-forecast">
+            { period.detailedForecast }
+          </div>
+        </div>
+      </div>
+    ));
+  }
+
+
+  const renderCurrentConditions = (index=0) => {
+    const currTemp = extractNumericData(currentWeather.temperature, index, celcius2Farenheight);
+    const maxTemp = extractNumericData(currentWeather.maxTemperature, index, celcius2Farenheight);
+    const minTemp = extractNumericData(currentWeather.minTemperature, index, celcius2Farenheight);
+    const snowLevel = extractNumericData(currentWeather.snowLevel, index, meters2Feet);
+    const windChill = extractNumericData(currentWeather.windChill, index, celcius2Farenheight);
+    const wind = extractNumericData(currentWeather.windSpeed, index, km2Mi);
+    const gusts = extractNumericData(currentWeather.windGust, index, km2Mi);
+    const skyCover = extractNumericData(currentWeather.skyCover, index, km2Mi);
+    console.log('Current', currentWeather);
     
+    const currentOnly = index === 0;
     return (
-      <div className="current-conditions">
-        <h4>Current Conditions</h4>
+      <div key={index} className="current-conditions">
+        
+        { currentOnly && 
+          <h4>Current Conditions</h4>
+        }
 
         <div className="temps inline">
-          <div className="current-temp">{ currTemp }&deg;F</div>
+          { currentOnly && 
+            <div className="current-temp">{ currTemp }&deg;F</div>
+          }
 
           <div>
             <div className="inline">
@@ -67,10 +96,12 @@ function WeatherDotGov(props) {
             </div>
           </div>
 
-          <div>
-            <label>Wind Chill</label>
-            <div>{ windChill }&deg;F</div>
-          </div>
+          { currentOnly && 
+            <div>
+              <label>Wind Chill</label>
+              <div>{ windChill }&deg;F</div>
+            </div>
+          }
         </div>
 
         <div className="inline">
@@ -104,31 +135,16 @@ function WeatherDotGov(props) {
     return <Spinner />;
   }
 
-  const periods = forecast && forecast.periods ? forecast.periods.slice(0, 3) : {};
   return (
     <div className="WeatherDotGov">
-
       { renderCurrentConditions() }
-
-      { periods.map(period => (
-        <div key={ period.number } className="forecast">
-          <h4>{ period.name }'s Forecast</h4>
-          <div className="detailed">
-            <div className="weather-icon">
-              <img alt={ period.shortForecast } className="weather-icon" src={ period.icon } />
-            </div>
-            <div className="detailed-forecast">
-              { period.detailedForecast }
-            </div>
-          </div>
-        </div>
-      ))}
+      { props.simple && renderSimpleFrecast() }
     </div>
   )
 }
 
 
-function getForecast(lat, lng) {
+function getForecast(lat, lng, retrying=false) {
   return new Promise((resolve, reject) => {
     fetchForecast(lat, lng)
     .then(data => {
@@ -136,7 +152,14 @@ function getForecast(lat, lng) {
         resolve(data);
       }
       else {
-        alert('Sorry, there was a problem getting your forecast. Please try again later');
+        if (!retrying) {
+          // Retry once, weather.gov periodically fails with a 404 for the URL it provides...
+          // Maybe move this logic to the server?
+          getForecast(lat,lng, true).then(resolve).catch(reject);
+        }
+        else {
+          alert('Sorry, there was a problem getting your forecast. Please try again later');
+        }
       }
     })
     .catch((err) => {
@@ -147,14 +170,14 @@ function getForecast(lat, lng) {
 }
 
 
-function extractNumericData(dataPoint, conversion) {
+function extractNumericData(dataPoint, index, conversion) {
   let data = '--';
   try {
     if (conversion) {
-      data = Math.round(conversion(dataPoint.values[0].value));
+      data = Math.round(conversion(dataPoint.values[index].value));
     }
     else {
-      data = Math.round(dataPoint.values[0].value);
+      data = Math.round(dataPoint.values[index].value);
     }
   } catch(err) {
     data = 'Error';

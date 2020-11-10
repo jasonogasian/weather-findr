@@ -51,3 +51,5 @@ To work on the project in development, you must first `npm install` EACH of thes
 
 3. I have noticed that weather forecast requests to the `weather.gov` API occasionally fail, seemingly for no reason. This needs to be investigated further.
 
+4. Need to add specific CORS domains to the Node API.
+

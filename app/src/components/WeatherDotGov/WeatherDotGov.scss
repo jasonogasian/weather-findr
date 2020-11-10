@@ -54,15 +54,15 @@
       border-bottom: 1px solid #aaa;
     }
 
-    .detailed {
+    .simple {
       display: table;
 
-      .weather-icon, .detailed-forecast {
+      .weather-icon, .simple-forecast {
         display: table-cell;
         vertical-align: top;
       }
 
-      .detailed-forecast {
+      .simple-forecast {
         padding-left: 10px;
         text-align: left;
       }

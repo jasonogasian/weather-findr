@@ -27,9 +27,10 @@ $formElementHeight: 34px;
     padding: 6px;
     font-weight: bold;
     cursor: pointer;
+    transition: background-color 200ms;
 
     &:hover {
-      background-color: #6b9bef;
+      background-color: #6d9df1;
     }
   }
 

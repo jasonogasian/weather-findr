@@ -38,10 +38,11 @@
     margin: 4px;
     background: none;
     font-weight: normal;
+    transition: color 200ms;
 
     &:hover {
       background: none;
-      color: #666;
+      color: #777;
     }
 
     @media #{$isPhone} {

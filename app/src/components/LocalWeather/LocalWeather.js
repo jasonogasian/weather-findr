@@ -160,7 +160,7 @@ function LocalWeather(props) {
 
       { lat && lng &&
         <div className="forecast-area">
-          <WeatherDotGov lat={lat} lng={lng} onElevation={ handleElevation } />
+          <WeatherDotGov simple lat={lat} lng={lng} onElevation={ handleElevation } />
         </div>
       }
 

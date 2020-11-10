@@ -56,7 +56,7 @@ const apiRouter = (logger) => {
         // First check the cache for the "points" data
         const cachedPoints = weatherCache.get(url);
         if (cachedPoints) {
-          fetchForecasts(res, cachedPoints, url);
+          fetchForecasts(res, logger, cachedPoints, url);
         }
 
         // Points NOT cached, fetch the data
@@ -66,7 +66,7 @@ const apiRouter = (logger) => {
             headers : headers,
           })
           .then(response => response.json())
-          .then(data => fetchForecasts(res, data, url))
+          .then(data => fetchForecasts(res, logger, data, url))
           .catch(err => {
             res.status(500).send({error: 'There was an error making the request.'});
             logger.log({
@@ -88,7 +88,7 @@ const apiRouter = (logger) => {
 module.exports = apiRouter;
 
 
-function fetchForecasts(res, data, cacheKey) {
+function fetchForecasts(res, logger, data, cacheKey) {
   if (data && data.properties && data.properties.forecast && data.properties.forecastGridData) {
     const forecastCacheKey = cacheKey+'/forecast';
     const cachedForecast = weatherCache.get(forecastCacheKey);
