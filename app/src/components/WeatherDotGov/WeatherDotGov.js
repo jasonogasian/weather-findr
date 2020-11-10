@@ -9,10 +9,6 @@ import Spinner from "components/Spinner/Spinner";
 import './WeatherDotGov.scss';
 
 
-// Config constants
-const SHOW_DETAILED_COUNT = 4;
-
-
 // Icons
 library.add(faLocationArrow);
 
@@ -70,7 +66,7 @@ function WeatherDotGov(props) {
     const wind = extractNumericData(currentWeather.windSpeed, index, km2Mi);
     const gusts = extractNumericData(currentWeather.windGust, index, km2Mi);
     const skyCover = extractNumericData(currentWeather.skyCover, index, km2Mi);
-    console.log('Current', currentWeather);
+    // console.log('Current', currentWeather);
     
     const currentOnly = index === 0;
     return (
