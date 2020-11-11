@@ -68,7 +68,7 @@ const apiRouter = (logger) => {
           .then(response => response.json())
           .then(data => fetchForecasts(res, logger, data, url))
           .catch(err => {
-            res.status(500).send({error: 'There was an error making the request.'});
+            res.status(500).send({error: 'There was an error making the request.', details: err});
             logger.log({
               level: 'error',
               message: JSON.stringify(err),
@@ -113,17 +113,17 @@ function fetchForecasts(res, logger, data, cacheKey) {
           weatherCache.set(forecastCacheKey, data); // Store forecast in local cache
         }
         else {
-          res.status(500).send({error: 'Unable to fetch forecast'});
+          res.status(500).send({error: 'Unable to fetch forecast', forecast, forecastGridData});
           logger.log({
             level: 'error',
-            message: "Bad forecast received.\n" + JSON.stringify(forecast) + "\n" + JSON.stringify(forecastGridData)
+            message: "Bad forecast received.\n\n\n" + Object.keys(forecast) + "\n\n\n" + Object.keys(forecastGridData)
           });
         }
       });
     }
 
-    // Store the "points" data in cache for a week
-    weatherCache.set(cacheKey, data, 60 * 60 * 24 * 7);
+    // Store the "points" data in cache for 4 hours
+    weatherCache.set(cacheKey, data, 60 * 60 * 4);
   }
   else {
     res.status(500).send({error: 'Unable to reach forecast service'});
