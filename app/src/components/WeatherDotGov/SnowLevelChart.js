@@ -47,7 +47,6 @@ function SnowLevelChart(props) {
 
   return (
     <div className="SnowLevelChart Chart">
-      <h4>Snow Level (ft)</h4>
       <Chart tooltip data={ snowLineData } axes={ axes } getSeriesStyle={ getColor }/>
     </div>
   )

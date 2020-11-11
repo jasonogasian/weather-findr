@@ -6,25 +6,24 @@
       display: table;
       table-layout: fixed;
       width: 100%;
+      margin-bottom: 4px;
 
       .tab {
         display: table-cell;
-        border: 1px solid cornflowerblue;
-        background-color: cornflowerblue;
-        border-bottom: none;
         cursor: pointer;
-        transition: all 200ms;
         padding: 4px 0;
         font-weight: bold;
+        color: cornflowerblue;
+        border-bottom: 2px solid cornflowerblue;
+        background-color: transparent;
         
         &:not(.active) {
           color: #444;
-          border-color: #777;
-          background-color: #DDD;
+          border-color: transparent;
+        }
 
-          &:hover {
-            background-color: #BBC;
-          }
+        &:hover {
+          background-color: #EEE;
         }
       }
     }

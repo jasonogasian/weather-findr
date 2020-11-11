@@ -139,8 +139,8 @@ function WeatherDotGov(props) {
     <div className="WeatherDotGov">
       { renderCurrentConditions() }
 
+      <h4 className="chart-title">Temperatures (&deg;F)</h4>
       <div className="chart-area">
-        <h4>Temperatures (&deg;F)</h4>
         <Tabbed tabs={[{label: 'Today'}, {label: 'High/Low'}, {label: 'Future'}]}>
           <TodayTempChart data={ currentWeather } />
           <MinMaxTempChart data={ currentWeather } />
@@ -148,7 +148,10 @@ function WeatherDotGov(props) {
         </Tabbed>
       </div>
       
-      <SnowLevelChart data={ currentWeather } />
+      <h4 className="chart-title">Snow Level (ft)</h4>
+      <div className="chart-area">
+        <SnowLevelChart data={ currentWeather } />
+      </div>
 
       { props.simple && renderSimpleFrecast() }
     </div>
