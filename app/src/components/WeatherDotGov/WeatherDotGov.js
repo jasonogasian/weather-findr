@@ -4,7 +4,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { celcius2Farenheight, km2Mi, meters2Feet } from "lib/conversions";
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "components/Spinner/Spinner";
-// import { Chart } from 'react-charts'
+import MinMaxTempChart from "./MinMaxTempChart";
+import SnowLevelChart from "./SnowLevelChart";
 
 import './WeatherDotGov.scss';
 
@@ -134,6 +135,10 @@ function WeatherDotGov(props) {
   return (
     <div className="WeatherDotGov">
       { renderCurrentConditions() }
+
+      <MinMaxTempChart data={ currentWeather } />
+      <SnowLevelChart data={ currentWeather } />
+
       { props.simple && renderSimpleFrecast() }
     </div>
   )

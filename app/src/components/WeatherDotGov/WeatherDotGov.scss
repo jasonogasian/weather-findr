@@ -41,6 +41,19 @@
     }
   }
 
+  .Chart {
+    height: 200px;
+    margin: 50px 15px;
+
+    h4 {
+      margin: 0;
+    }
+
+    @media #{$isPhone} {
+      margin: 50px 0;
+    }
+  }
+
   .forecast {
     padding: 20px;
     padding-bottom: 30px;
