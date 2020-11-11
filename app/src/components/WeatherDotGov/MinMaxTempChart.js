@@ -1,10 +1,12 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useContext } from "react";
 import { celcius2Farenheight } from "lib/conversions";
 import Spinner from "components/Spinner/Spinner";
 import { Chart } from 'react-charts'
+import { DarkModeContext } from "components/App/App";
 
 
 function MinMaxTempChart(props) {
+  const darkMode = useContext(DarkModeContext);
   const data = props.data;
 
   const getColor = useCallback(
@@ -45,7 +47,7 @@ function MinMaxTempChart(props) {
 
   return (
     <div className="MinMaxTempChart Chart">
-      <Chart tooltip data={ minMaxTempData } axes={ axes } getSeriesStyle={ getColor }/>
+      <Chart tooltip dark={ darkMode } data={ minMaxTempData } axes={ axes } getSeriesStyle={ getColor }/>
     </div>
   )
 }

@@ -1,10 +1,12 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useContext } from "react";
 import { celcius2Farenheight } from "lib/conversions";
 import Spinner from "components/Spinner/Spinner";
 import { Chart } from 'react-charts'
+import { DarkModeContext } from "components/App/App";
 
 
 function FutureTempChart(props) {
+  const darkMode = useContext(DarkModeContext);
   const data = props.data;
 
   const getColor = useCallback(
@@ -39,7 +41,7 @@ function FutureTempChart(props) {
 
   return (
     <div className="FutureTempChart Chart">
-      <Chart tooltip data={ tempData } axes={ axes } getSeriesStyle={ getColor }/>
+      <Chart tooltip dark={ darkMode } data={ tempData } axes={ axes } getSeriesStyle={ getColor }/>
     </div>
   )
 }

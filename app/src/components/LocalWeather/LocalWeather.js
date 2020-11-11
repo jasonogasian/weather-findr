@@ -153,8 +153,9 @@ function LocalWeather(props) {
           <div className="note">Looks like location is disabled in your browser.</div>
         }
 
+        <p>or</p>
         <button className="summit-button" onClick={ toggleShowLocations }>
-          Show Summit Options
+          Choose a Summit
         </button>
       </div>
 

@@ -13,8 +13,8 @@
         cursor: pointer;
         padding: 4px 0;
         font-weight: bold;
-        color: cornflowerblue;
-        border-bottom: 2px solid cornflowerblue;
+        color: $accentColor;
+        border-bottom: 2px solid $accentColor;
         background-color: transparent;
         
         &:not(.active) {
@@ -31,4 +31,19 @@
     .content {
       border: 1px solid $borderColor;
     }
+}
+
+
+body.dark-mode .Tabbed {
+
+  .tab {
+
+    &:not(.active) {
+      color: #AAA;
+    }
+    
+    &:hover {
+      background-color: #444;
+    }
+  }
 }

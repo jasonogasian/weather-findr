@@ -94,13 +94,26 @@ $inputWidth: 88%;
   }
 
   .summit-button {
-    margin-top: 12px;
     padding-left: 15px;
     padding-right: 15px;
     
     @media #{$isPhone} {
-      margin-top: 20px;
       font-size: 16px;
+    }
+  }
+}
+
+
+body.dark-mode .LocalWeather {
+
+  input {
+    background-color: #555;
+    letter-spacing: 0.7px;
+    color: #fff;
+
+    &::placeholder {
+      color: #DDD;
+      letter-spacing: 1px;
     }
   }
 }

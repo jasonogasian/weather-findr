@@ -51,25 +51,21 @@
     padding: 10px;
     background-color: #fff;
 
+    .Chart {
+      height: 200px;
+  
+      h4 {
+        margin: 0;
+      }
+    }
+
     .Tabbed .content {
       padding: 0 15px;
     }
   }
 
-  .Chart {
-    height: 200px;
-
-    h4 {
-      margin: 0;
-    }
-
-    @media #{$isPhone} {
-      margin: 5px 0;
-    }
-  }
-
   .forecast {
-    padding: 20px;
+    padding: 50px 20px 20px 20px;
     padding-bottom: 30px;
     animation: fadeIn 700ms ease-in-out;
 
@@ -94,5 +90,21 @@
         text-align: left;
       }
     }
+  }
+}
+
+
+body.dark-mode .WeatherDotGov {
+
+  .current-conditions {
+    background-color: $darkBGAccent;
+
+    label {
+      color: #aaa;
+    }
+  }
+
+  .chart-area {
+    background-color: $darkBGAccent;
   }
 }

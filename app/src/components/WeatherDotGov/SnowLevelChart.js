@@ -1,10 +1,12 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useContext } from "react";
 import { meters2Feet } from "lib/conversions";
 import Spinner from "components/Spinner/Spinner";
 import { Chart } from 'react-charts'
+import { DarkModeContext } from "components/App/App";
 
 
 function SnowLevelChart(props) {
+  const darkMode = useContext(DarkModeContext);
   const data = props.data;
 
   const getColor = useCallback(series => ({
@@ -32,7 +34,6 @@ function SnowLevelChart(props) {
       ]
     }
   },[data]);
-  console.log('data', snowLineData)
 
 
   const axes = useMemo(() => ([
@@ -47,7 +48,7 @@ function SnowLevelChart(props) {
 
   return (
     <div className="SnowLevelChart Chart">
-      <Chart tooltip data={ snowLineData } axes={ axes } getSeriesStyle={ getColor }/>
+      <Chart tooltip dark={ darkMode } data={ snowLineData } axes={ axes } getSeriesStyle={ getColor }/>
     </div>
   )
 }

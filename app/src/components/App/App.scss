@@ -12,15 +12,15 @@ $formElementHeight: 34px;
   }
 
   header {
-    background-color: #333;
+    background-color: $darkBGAccent;
     color: #fff;
     font-size: 32px;
     padding: 20px 0;
   }
 
   button {
-    background-color: cornflowerblue;
-    color: #111;
+    background-color: $accentColor;
+    color: #fff;
     border: none;
     height: $formElementHeight;
     box-sizing: border-box;
