@@ -14,10 +14,13 @@
     margin: 8px;
   }
 
+  .current-conditions, .chart-area {
+    border: 1px solid $borderColor;
+  }
+
   .current-conditions {
     margin-top: 50px;
     padding-bottom: 20px;
-    border: 1px solid $borderColor;
     font-weight: bold;
     background-color: #fff;
 
