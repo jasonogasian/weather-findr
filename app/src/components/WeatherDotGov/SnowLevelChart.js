@@ -8,7 +8,7 @@ function SnowLevelChart(props) {
   const data = props.data;
 
   const getColor = useCallback(series => ({
-    color: series.label.match(/elevation/i) ? '#BB2222' : '#2277DD',
+    color: series.label.match(/elevation/i) ? '#BB2222' : '#22DDDD',
   }),[]);
 
 
@@ -21,8 +21,8 @@ function SnowLevelChart(props) {
         {
           label: 'Summit Elevation',
           data: [
-            [new Date(data.snowLevel.values[0].validTime.replace(/\/.*$/, '')), data.elevation],
-            [new Date(data.snowLevel.values[data.snowLevel.values.length-1].validTime.replace(/\/.*$/, '')), data.elevation],
+            [new Date(data.snowLevel.values[0].validTime.replace(/\/.*$/, '')), data.elevation.value],
+            [new Date(data.snowLevel.values[data.snowLevel.values.length-1].validTime.replace(/\/.*$/, '')), data.elevation.value],
           ]
         },
         {
@@ -52,7 +52,5 @@ function SnowLevelChart(props) {
     </div>
   )
 }
-
-
 
 export default SnowLevelChart;

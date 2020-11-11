@@ -9,7 +9,7 @@ function MinMaxTempChart(props) {
 
   const getColor = useCallback(
     series => ({
-      color: series.label.match(/high/i) ? '#BB2222' : '#2277DD',
+      color: series.label.match(/high/i) ? '#BB2222' : '#2299DD',
     }),[]
   );
 
@@ -20,7 +20,7 @@ function MinMaxTempChart(props) {
     }
     else {
       return [
-          {
+        {
           label: 'High Temp',
           data: data.maxTemperature.values.map(v => [new Date(v.validTime.replace(/\/.*$/, '')), celcius2Farenheight(v.value)])
         },
@@ -45,12 +45,9 @@ function MinMaxTempChart(props) {
 
   return (
     <div className="MinMaxTempChart Chart">
-      <h4>Temperatures (&deg;F)</h4>
       <Chart tooltip data={ minMaxTempData } axes={ axes } getSeriesStyle={ getColor }/>
     </div>
   )
 }
-
-
 
 export default MinMaxTempChart;

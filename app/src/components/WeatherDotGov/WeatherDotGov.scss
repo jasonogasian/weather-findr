@@ -17,7 +17,7 @@
   .current-conditions {
     margin-top: 20px;
     padding-bottom: 20px;
-    border: 1px solid #666;
+    border: 1px solid $borderColor;
     font-weight: bold;
 
     h4 {
@@ -41,16 +41,23 @@
     }
   }
 
+  .chart-area {
+    margin: 50px 0;
+
+    .Tabbed .content {
+      padding: 0 15px;
+    }
+  }
+
   .Chart {
     height: 200px;
-    margin: 50px 15px;
 
     h4 {
       margin: 0;
     }
 
     @media #{$isPhone} {
-      margin: 50px 0;
+      margin: 5px 0;
     }
   }
 

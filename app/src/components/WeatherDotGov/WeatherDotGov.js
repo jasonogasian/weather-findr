@@ -6,6 +6,9 @@ import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "components/Spinner/Spinner";
 import MinMaxTempChart from "./MinMaxTempChart";
 import SnowLevelChart from "./SnowLevelChart";
+import Tabbed from "components/Tabbed/Tabbed";
+import TodayTempChart from "./TodayTempChart";
+import FutureTempChart from "./FutureTempChart";
 
 import './WeatherDotGov.scss';
 
@@ -136,7 +139,15 @@ function WeatherDotGov(props) {
     <div className="WeatherDotGov">
       { renderCurrentConditions() }
 
-      <MinMaxTempChart data={ currentWeather } />
+      <div className="chart-area">
+        <h4>Temperatures (&deg;F)</h4>
+        <Tabbed tabs={[{label: 'Today'}, {label: 'High/Low'}, {label: 'Future'}]}>
+          <TodayTempChart data={ currentWeather } />
+          <MinMaxTempChart data={ currentWeather } />
+          <FutureTempChart data={ currentWeather } />
+        </Tabbed>
+      </div>
+      
       <SnowLevelChart data={ currentWeather } />
 
       { props.simple && renderSimpleFrecast() }

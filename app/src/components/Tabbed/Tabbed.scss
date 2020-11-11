@@ -1,0 +1,35 @@
+@import 'variables.scss';
+
+.Tabbed {
+
+    .tabs {
+      display: table;
+      table-layout: fixed;
+      width: 100%;
+
+      .tab {
+        display: table-cell;
+        border: 1px solid cornflowerblue;
+        background-color: cornflowerblue;
+        border-bottom: none;
+        cursor: pointer;
+        transition: all 200ms;
+        padding: 4px 0;
+        font-weight: bold;
+        
+        &:not(.active) {
+          color: #444;
+          border-color: #777;
+          background-color: #DDD;
+
+          &:hover {
+            background-color: #BBC;
+          }
+        }
+      }
+    }
+
+    .content {
+      border: 1px solid $borderColor;
+    }
+}
