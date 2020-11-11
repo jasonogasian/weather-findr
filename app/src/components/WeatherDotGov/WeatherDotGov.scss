@@ -15,10 +15,11 @@
   }
 
   .current-conditions {
-    margin-top: 20px;
+    margin-top: 50px;
     padding-bottom: 20px;
     border: 1px solid $borderColor;
     font-weight: bold;
+    background-color: #fff;
 
     h4 {
       margin-bottom: 8px;
@@ -41,7 +42,7 @@
     }
   }
     
-  h4 {
+  h4.chart-title {
     margin: 0;
     padding: 50px 0 10px 0;
   }

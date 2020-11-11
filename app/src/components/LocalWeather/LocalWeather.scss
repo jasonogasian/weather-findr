@@ -1,11 +1,16 @@
 @import 'variables.scss';
 
+$mobileGutter: 16px;
 $borderColor: #666;
 $inputWidth: 88%;
 
 .LocalWeather {
   min-height: 100vh;
   padding: 20px 16px;
+
+  @media #{$isPhone} {
+    padding: 20px 0;
+  }
 
   .title {
     white-space: nowrap;
@@ -46,7 +51,11 @@ $inputWidth: 88%;
   }
 
   .address-form {
-    max-width: 400px;
+    max-width: 500px;
+
+    @media #{$isPhone} {
+      padding: 0 $mobileGutter;
+    }
 
     input, button.loc {
       vertical-align: top;
