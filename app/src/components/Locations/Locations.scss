@@ -39,6 +39,7 @@
     background: none;
     font-weight: normal;
     transition: color 200ms;
+    color: #222;
 
     &:hover {
       background: none;
@@ -58,5 +59,9 @@ body.dark-mode .Locations {
 
   .group-label {
     background-color: #444;
+  }
+
+  .location {
+    color: #efefef;
   }
 }
