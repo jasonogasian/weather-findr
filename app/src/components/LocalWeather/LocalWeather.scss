@@ -94,8 +94,7 @@ $inputWidth: 88%;
       .result-group, .result {
         border-bottom: 1px solid $borderColor;
         padding: 8px 6px;
-        font-size: 12px;
-        font-weight: bold;
+        font-size: 14px;
       }
 
       .result-group {
@@ -141,6 +140,10 @@ body.dark-mode .LocalWeather {
 
     .results {
       background-color: $darkBGAccent;
+
+      .result-group {
+        background-color: darken($accentColor, 20%);
+      }
 
       .result {
         

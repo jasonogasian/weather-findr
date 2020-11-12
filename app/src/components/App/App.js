@@ -16,9 +16,9 @@ library.add(faSnowflake);
 // Dark Mode
 let darkMode = false;
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  // darkMode = true;
-  // document.body.classList.add('dark-mode');
-  // document.documentElement.classList.add('dark-mode');
+  darkMode = true;
+  document.body.classList.add('dark-mode');
+  document.documentElement.classList.add('dark-mode');
 }
 
 
