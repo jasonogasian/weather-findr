@@ -162,8 +162,8 @@ function LocalWeather(props) {
                 { g.groupLabel }
               </div>
               { g.values.map(r => (
-                <div key={r.id} className="result" onClick={() => chooseResult(r)}>
-                  {r.displayString}
+                <div key={r.id || r.displayString} className="result" onClick={() => chooseResult(r)}>
+                  { r.displayString }
                 </div>
               ))}
             </React.Fragment>

@@ -1,3 +1,5 @@
+@import 'variables';
+
 .Spinner {
 
   .lds-facebook {
@@ -40,5 +42,13 @@
       top: 24px;
       height: 32px;
     }
+  }
+}
+
+
+body.dark-mode .Spinner {
+  
+  .lds-facebook div {
+    background: $darkBGAccent;
   }
 }
