@@ -30,7 +30,7 @@ $formElementHeight: 34px;
     transition: background-color 200ms;
 
     &:hover {
-      background-color: #6d9df1;
+      background-color: lighten($accentColor, 10%);
     }
   }
 

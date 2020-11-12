@@ -1,19 +1,22 @@
+import React from 'react';
 import { useCallback, useEffect, useState } from "react";
 import { geolocated } from "react-geolocated";
 import { fetchLocations, fetchPredictions } from "lib/fetch";
-import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faMountain, faSearchLocation } from "@fortawesome/free-solid-svg-icons";
 import WeatherDotGov from "components/WeatherDotGov/WeatherDotGov";
 import Spinner from "components/Spinner/Spinner";
 import { meters2Feet } from "lib/conversions";
 import Locations from "components/Locations/Locations";
+import { ReactComponent as GPSLocation } from "images/gps-location.svg";
+
 
 import './LocalWeather.scss';
 
 
 // Icons
-library.add(faLocationArrow);
+library.add(faMountain, faSearchLocation);
 
 function LocalWeather(props) {
   const [ search, setSearch ] = useState('');
@@ -48,8 +51,16 @@ function LocalWeather(props) {
   // Fetch address predictions
   useEffect(() => {
     if (search.length >= 3) {
+      const locationResults = searchLocations(locations, search);
+
       predict(search)
-      .then(results => setAddressResults(results.results));
+      .then(resp => {
+        const results = locationResults.concat({
+          groupLabel: 'Search Results',
+          values: resp.results
+        });
+        setAddressResults(results);
+      });
     }
     else if (!search) {
       setAddressResults([]);
@@ -129,23 +140,33 @@ function LocalWeather(props) {
         <h6>{ elevation } { elevation ? 'ft' : '--' }</h6>
 
         <input 
-          name="address"
-          placeholder="Search an address"
+          placeholder="Search an address or summit"
           value={ search }
           onBlur={ clearResults }
           onChange={ e => setSearch(e.target.value) } />
 
         { props.isGeolocationAvailable &&
           <button className="loc" aria-label="use my location" onClick={ useLocation }>
-            <FontAwesomeIcon icon={faLocationArrow} />
+            <GPSLocation />
           </button>
         }
 
         <div className="results">
-          { addressResults.map(r => (
-            <div key={r.id} className="result" onClick={() => chooseResult(r)}>
-              {r.displayString}
-            </div>
+          { addressResults.map(g => (
+            <React.Fragment key={g.groupLabel}>
+              <div className="result-group">
+                { g.groupLabel.match(/search result/i) ?
+                  <FontAwesomeIcon icon={ faSearchLocation } />
+                  : <FontAwesomeIcon icon={ faMountain } />
+                }&nbsp;
+                { g.groupLabel }
+              </div>
+              { g.values.map(r => (
+                <div key={r.id} className="result" onClick={() => chooseResult(r)}>
+                  {r.displayString}
+                </div>
+              ))}
+            </React.Fragment>
           ))}
         </div>
         
@@ -154,6 +175,7 @@ function LocalWeather(props) {
         }
 
         <p>or</p>
+
         <button className="summit-button" onClick={ toggleShowLocations }>
           Choose a Summit
         </button>
@@ -193,3 +215,33 @@ export default geolocated({
   },
   userDecisionTimeout: 5000,
 })(LocalWeather);
+
+
+function searchLocations(locations, search) {
+  const pattern = new RegExp(search, 'i');
+  const results = [];
+  const addedGroups = {};
+  
+  locations.forEach(g => {
+    const groupLabel = g.groupLabel;
+
+    g.values.forEach(l => {
+      if (l.label.match(pattern)) {
+        if (!addedGroups[groupLabel]) {
+          addedGroups[groupLabel] = {groupLabel, values:[]};
+          results.push(addedGroups[groupLabel]);
+        }
+        addedGroups[groupLabel].values.push({
+          displayString: l.label,
+          place: {
+            geometry: {
+              coordinates: [l.geo.lng, l.geo.lat]
+            }
+          }
+        });
+      }
+    })
+  })
+
+  return results;
+}
