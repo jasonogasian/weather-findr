@@ -12,3 +12,8 @@ export const meters2Feet = (m) => {
 export const km2Mi = (km) => {
   return km / 1.609;
 }
+
+
+export const formatChartTime = (label) => {
+  return label.replace(/^0/, '').replace(' AM', 'am').replace(' PM', 'pm');
+}

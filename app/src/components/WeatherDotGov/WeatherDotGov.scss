@@ -56,6 +56,10 @@
 
     .Chart {
       height: 250px;
+
+      @media #{$isPhone} {
+        height: 200px;
+      }
   
       h4 {
         margin: 0;

@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useContext } from "react";
-import { celcius2Farenheight } from "lib/conversions";
+import { celcius2Farenheight, formatChartTime } from "lib/conversions";
 import Spinner from "components/Spinner/Spinner";
 import { Chart } from 'react-charts'
 import { DarkModeContext } from "components/App/App";
@@ -36,7 +36,7 @@ function MinMaxTempChart(props) {
 
 
   const axes = useMemo(() => ([
-    { primary: true, type: 'utc', position: 'bottom' },
+    { primary: true, type: 'utc', position: 'bottom', format: formatChartTime },
     { type: 'linear', position: 'left' }
   ]), []);
 

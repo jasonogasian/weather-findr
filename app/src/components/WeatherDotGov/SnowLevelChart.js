@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useContext } from "react";
-import { meters2Feet } from "lib/conversions";
+import { formatChartTime, meters2Feet } from "lib/conversions";
 import Spinner from "components/Spinner/Spinner";
 import { Chart } from 'react-charts'
 import { DarkModeContext } from "components/App/App";
@@ -8,6 +8,7 @@ import { DarkModeContext } from "components/App/App";
 function SnowLevelChart(props) {
   const darkMode = useContext(DarkModeContext);
   const data = props.data;
+  const elevation = meters2Feet(data.elevation.value);
 
   const getColor = useCallback(series => ({
     color: series.label.match(/elevation/i) ? '#BB2222' : '#22DDDD',
@@ -23,8 +24,8 @@ function SnowLevelChart(props) {
         {
           label: 'Summit Elevation',
           data: [
-            [new Date(data.snowLevel.values[0].validTime.replace(/\/.*$/, '')), data.elevation.value],
-            [new Date(data.snowLevel.values[data.snowLevel.values.length-1].validTime.replace(/\/.*$/, '')), data.elevation.value],
+            [new Date(data.snowLevel.values[0].validTime.replace(/\/.*$/, '')), elevation],
+            [new Date(data.snowLevel.values[data.snowLevel.values.length-1].validTime.replace(/\/.*$/, '')), elevation],
           ]
         },
         {
@@ -37,7 +38,7 @@ function SnowLevelChart(props) {
 
 
   const axes = useMemo(() => ([
-    { primary: true, type: 'utc', position: 'bottom' },
+    { primary: true, type: 'utc', position: 'bottom', format: formatChartTime },
     { type: 'linear', position: 'left' }
   ]), []);
 

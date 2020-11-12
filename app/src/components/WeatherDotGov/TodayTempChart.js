@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo } from "react";
-import { celcius2Farenheight } from "lib/conversions";
+import { celcius2Farenheight, formatChartTime } from "lib/conversions";
 import Spinner from "components/Spinner/Spinner";
 import { Chart } from 'react-charts'
 import { DarkModeContext } from "components/App/App";
@@ -15,10 +15,10 @@ function TodayTempChart(props) {
 
 
   const tempData = useMemo(() => {
-    const eod = new Date();
-    eod.setHours(23,59,59,999);
+    const oneDay = new Date();
+    oneDay.setHours(oneDay.getHours() + 24);
 
-    const today = data.temperature.values.filter(d => new Date(d.validTime.replace(/\/.*$/, '')) <= eod);
+    const next24H = data.temperature.values.filter(d => new Date(d.validTime.replace(/\/.*$/, '')) <= oneDay);
     if (data === null) {
       return [];
     }
@@ -26,7 +26,7 @@ function TodayTempChart(props) {
       return [
         {
           label: 'Temperature',
-          data: today.map(v => [new Date(v.validTime.replace(/\/.*$/, '')), celcius2Farenheight(v.value)])
+          data: next24H.map(v => [new Date(v.validTime.replace(/\/.*$/, '')), celcius2Farenheight(v.value)])
         },
       ]
     }
@@ -34,8 +34,8 @@ function TodayTempChart(props) {
 
 
   const axes = useMemo(() => ([
-    { primary: true, type: 'utc', position: 'bottom' },
-    { type: 'linear', position: 'left' }
+    { primary: true, type: 'utc', position: 'bottom', format: formatChartTime },
+    { type: 'linear', position: 'left' },
   ]), []);
 
 
@@ -45,7 +45,7 @@ function TodayTempChart(props) {
 
   return (
     <div className="TodayTempChart Chart">
-      <Chart tooltip dark={ darkMode } data={ tempData } axes={ axes } getSeriesStyle={ getColor }/>
+      <Chart tooltip dark={ darkMode } data={ tempData } axes={ axes } getSeriesStyle={ getColor } />
     </div>
   )
 }
